@@ -1,4 +1,4 @@
-﻿
+
 # Cmake的命令不区分大小写，例如message，set等命令；但Cmake的变量区分大小写
 # 为统一风格，本项目的Cmake命令全部采用小写，变量全部采用大写加下划线组合。
 
@@ -27,6 +27,9 @@ endif()
 # load Qt library, minimum version required is 5.8
 # cn:Qt库加载,最低版本要求为5.8
 set(SARIBBON_MIN_QT_VERSION 5.8)
+set(CMAKE_PREFIX_PATH "${PROJECT_3RDPARTY_DIR}/qt-precompiled/${LOC_QT_VER}/gcc_64/lib/cmake" CACHE STRING "Exported" FORCE)
+set(Qt6_DIR "${PROJECT_3RDPARTY_DIR}/qt-precompiled/${LOC_QT_VER}/gcc_64/lib/cmake/Qt6" CACHE STRING "Exported" FORCE)
+
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Core REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} ${SARIBBON_MIN_QT_VERSION} COMPONENTS
     Core
@@ -51,7 +54,7 @@ if(SARIBBON_USE_FRAMELESS_LIB)
         # qt版本为6，判断是否小版本大于6.1
         if(${QT_VERSION_MINOR} LESS_EQUAL 1)
             #6.0及bug多多无法使用frameless
-            set(_SARIBBON_USE_FRAMELESS_LIB OFF)
+            #set(_SARIBBON_USE_FRAMELESS_LIB OFF)
             message(WARNING "QT_VERSION = Qt${QT_VERSION} QT version minor is ${QT_VERSION_MINOR},less 1,will set SARIBBON_USE_FRAMELESS_LIB OFF")
         endif()
     endif()
@@ -133,14 +136,14 @@ if(_SARIBBON_USE_FRAMELESS_LIB)
         # 再次尝试加载QWindowKit
         find_package(QWindowKit QUIET)
         if(NOT QWindowKit_FOUND)
-            set(_SARIBBON_USE_FRAMELESS_LIB OFF)
+            #set(_SARIBBON_USE_FRAMELESS_LIB OFF)
             message(WARNING "can not find package QWindowKit at ${__qwk_dir},set SARIBBON_USE_FRAMELESS_LIB=OFF")
         endif()
     else()
         message(STATUS "QWindowKit_DIR=${QWindowKit_DIR}")
         find_package(QWindowKit QUIET)
         if(NOT QWindowKit_FOUND)
-            set(_SARIBBON_USE_FRAMELESS_LIB OFF)
+            #set(_SARIBBON_USE_FRAMELESS_LIB OFF)
             message(WARNING "can not find package QWindowKit at ${__qwk_dir},set SARIBBON_USE_FRAMELESS_LIB=OFF")
         endif()
     endif()
